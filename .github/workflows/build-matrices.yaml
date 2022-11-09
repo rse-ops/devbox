@@ -48,7 +48,7 @@ jobs:
       with: 
         root: ${{ steps.parsed_files.outputs.parsed_files }}
         parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all"
+        flags: "--registry ghcr.io/rse-ops --all ."
       # END PULL REQUEST / PUSH checkout and file derivation =======================
 
       # START SCHEDULED checkout and file derivation =======================
@@ -63,7 +63,7 @@ jobs:
       with: 
         root: .
         parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all"    
+        flags: "--registry ghcr.io/rse-ops --all ."  
       # END SCHEDULED checkout and file derivation
 
     - name: View Build Matrix Result
