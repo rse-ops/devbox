@@ -1,0 +1,14 @@
+---
+title: RSE-ops Container Bases
+layout: none
+---
+
+[{% for entry in site.library %}
+    {
+        "name": "{{ entry.name }}",
+        "github": "{{ entry.container_url }}",
+        {% if entry.size %}"size": "{{entry.size}}",{% endif %}
+        "updated_at": "{{ entry.updated_at}}",
+        "versions": [{% for entry in entry.versions %}"{{ entry.tag }}"{% if forloop.last %}{% else %},{% endif %}{% endfor %}]
+  }{% if forloop.last %}{% else %},{% endif %}
+{% endfor %}]

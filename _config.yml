@@ -1,0 +1,52 @@
+### GENERAL SETTINGS ###
+
+# Site settings
+title: RSE-ops Devbox Library
+description: "Library of devboxes provided by RSE-ops community"
+baseurl: "/devbox" #important: start with /
+url: ""
+
+# Build settings
+markdown: kramdown
+permalink: /:categories/:title
+excerpt_separator: <!--more-->
+github_url: https://rse-ops.github.io/
+
+colors:  #in hex code if not noted else
+  primary: "#31363C"
+  primary_rgb: "49,54,60" #rgb of the primary. Needed in some places for the transparency effect.
+  secondary: "#709EE4"
+  link: "#31363C"
+  link_hover: "#709EE4"
+  footer_heading: "#777"
+  footer_content: "#31363C"
+
+# Making projects separate from posts
+collections:
+  library:
+    output: true
+    permalink: /r/:title/
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Social networks usernames. Many more available: google-plus, flickr, linkedin, etc). Shown in footer.
+github: https://github.com/rse-ops
+repo: https://github.com/rse-ops/devbox
+docs: https://rse-ops.github.io/docs
+maintainer: "@vsoch"
+maintainer_url: https://github.com/vsoch
+
+about: "RSE-ops is a community effort to provide resources and best practices for open source RSEng projects."
+
+
+exclude:
+ - scripts
+ - vendor
+ - Gemfile.lock
+ - README.md
