@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "openmpi",
+    "clang_14"
+  ],
+  "shell": {
+    "init_hook": null
+  }
+}
