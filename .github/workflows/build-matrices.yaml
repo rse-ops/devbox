@@ -63,7 +63,7 @@ jobs:
       with: 
         root: .
         parser: dockerbases
-        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
+        flags: "--registry ghcr.io/rse-ops --all --bases $PWD/bases $PWD"
         # END SCHEDULED checkout and file derivation
 
     - name: View Build Matrix Result
