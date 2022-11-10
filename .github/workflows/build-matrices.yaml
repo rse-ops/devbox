@@ -1,4 +1,4 @@
-fname: Docker Build Matrices
+name: Docker Build Matrices
 
 # This job generates build matrices using base images built two hours earlier
 
