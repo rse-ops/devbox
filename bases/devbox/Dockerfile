@@ -8,5 +8,4 @@ ENV PATH=/usr/bin:$PATH
 WORKDIR /code
 COPY devbox.json devbox.json
 RUN devbox shell -- echo "Installing packages"
-# RUN nix-env -i -f shell.nix
-# RUN $HOME/.nix-profile/bin/nix-env -i -f shell.nix
+# Shell into container and do: devbox shell
