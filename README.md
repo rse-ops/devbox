@@ -22,7 +22,6 @@ That's it!
 
  - [openmpi](openmpi): with clang 14
  
-
 ## Usage
 
 Each environment (subfolder here that isn't bases) is built against each base.
@@ -69,9 +68,21 @@ to get into your enviornment.
 
 ## Devbox
 
+- [bases/devbox/Dockerfile](bases/devbox/Dockerfile)
+
 Devbox is a local development environment you can also use for any container
-here!  To test out devbox, you can install [devbox](https://github.com/jetpack-io/devbox).
+here!  Once you shell into the container, you can either add to your Devbox, or shell
+inside:
+
+```bash
+$ devbox add <package>
+$ devbox shell
+```
+
+And you can also use it locally with a devbox.json!
+To do this, you can install [devbox](https://github.com/jetpack-io/devbox).
 You will also need to [install Nix](https://nixos.org/download.html).
+Further instructions for interaction are below.
 
 ### Running Environment
 
