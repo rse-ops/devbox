@@ -23,4 +23,4 @@ echo ${result}
 
 # set for both workflows that use it
 echo "dockerfilelist_matrix=${result}" >> $GITHUB_OUTPUT
-echo "dockerbuild_matrix=${result}" >> $GITHUB_OUTPUT
+echo "dockerbases_matrix=${result}" >> $GITHUB_OUTPUT
