@@ -9,5 +9,6 @@ echo "Relative path is $relative"
 echo "relative_path=${relative}" >> $GITHUB_OUTPUT
 container=$(echo "${container/bases-/""}")
 echo "container=${container}" >> $GITHUB_OUTPUT
+echo "container=${container}" >> $GITHUB_ENV
 
 
