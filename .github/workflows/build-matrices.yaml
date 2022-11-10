@@ -16,8 +16,8 @@ jobs:
     name: Test Changed Docker Builds
     runs-on: ubuntu-latest
     outputs:
-      dockerbuild_matrix: ${{ steps.dockerbuild.outputs.dockerbuild_matrix }}
-      empty_matrix: ${{ steps.dockerbuild.outputs.dockerbuild_matrix_empty }}
+      dockerbases_matrix: ${{ steps.dockerbuild.outputs.dockerbases_matrix }}
+      empty_matrix: ${{ steps.dockerbuild.outputs.dockerbasess_matrix_empty }}
 
     steps:
 
@@ -47,8 +47,8 @@ jobs:
       id: dockerbuild_pr
       with: 
         root: ${{ steps.parsed_files.outputs.parsed_files }}
-        parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all ."
+        parser: dockerbases
+        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
       # END PULL REQUEST / PUSH checkout and file derivation =======================
 
       # START SCHEDULED checkout and file derivation =======================
@@ -62,15 +62,15 @@ jobs:
       id: dockerbuild_scheduled
       with: 
         root: .
-        parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all ."  
-      # END SCHEDULED checkout and file derivation
+        parser: dockerbases
+        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
+        # END SCHEDULED checkout and file derivation
 
     - name: View Build Matrix Result
       id: dockerbuild
       env:
-        result: ${{ steps.dockerbuild_pr.outputs.dockerbuild_matrix }}
-        result_scheduled: ${{ steps.dockerbuild_scheduled.outputs.dockerbuild_matrix }}
+        result: ${{ steps.dockerbuild_pr.outputs.dockerbases_matrix }}
+        result_scheduled: ${{ steps.dockerbuild_scheduled.outputs.dockerbases_matrix }}
       run: /bin/bash .github/scripts/combine_results.sh
 
   build:
@@ -80,8 +80,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        result: ${{ fromJson(needs.generate.outputs.dockerbuild_matrix) }}
-    if: ${{ needs.generate.outputs.dockerbuild_matrix != '[]' }}
+        result: ${{ fromJson(needs.generate.outputs.dockerbases_matrix) }}
+    if: ${{ needs.generate.outputs.dockerbases_matrix != '[]' }}
     name: "Build ${{ matrix.result.container_name }}"
     steps:
     - name: Checkout Repository
@@ -104,22 +104,22 @@ jobs:
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
 
-    - name: Pull Docker Layers
-      env:
-        container: ${{ matrix.result.container_name }}
-      run: docker pull ${container} || exit 0
-
     - name: Update to relative path
       id: relative_path
       env:
         filename: ${{ matrix.result.filename }}
+        container: ${{ matrix.result.container_name }}
       run: /bin/bash .github/scripts/relative_path.sh
 
-    - name: Build ${{ matrix.result.container_name }}
+    - name: Pull Docker Layers
+      run: docker pull ${{ env.container }} || exit 0
+
+    - name: Build ${{ env.container }}
       id: builder
       env:
-        container: ${{ matrix.result.container_name }}
+        container: ${{ env.container }}
         prefix: ${{ matrix.result.command_prefix }}
+        context: ${{ matrix.result.context }}
         filename: ${{ steps.relative_path.outputs.relative_path }}
       run: |
         /bin/bash .github/scripts/build_simple.sh || (
@@ -130,9 +130,7 @@ jobs:
 
     - name: Deploy Container
       if: (github.event_name != 'pull_request')
-      env:
-        container: ${{ matrix.result.container_name }}
-      run: docker push ${container}
+      run: docker push ${{ env.container}}
 
     - name: Run Librarian
       id: runner
@@ -145,4 +143,3 @@ jobs:
           outdir: _library
           # defaults to branch: gh-pages, deploy: true, outdir: pwd
           # outdir is in context of the gh-pages branch, not here.
-
