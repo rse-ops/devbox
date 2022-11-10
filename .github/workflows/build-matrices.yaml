@@ -120,6 +120,7 @@ jobs:
       env:
         container: ${{ matrix.result.container_name }}
         prefix: ${{ matrix.result.command_prefix }}
+        context: ${{ matrix.result.context }}
         filename: ${{ steps.relative_path.outputs.relative_path }}
       run: |
         /bin/bash .github/scripts/build_simple.sh || (
