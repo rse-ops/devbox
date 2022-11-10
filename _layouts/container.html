@@ -137,7 +137,20 @@ Raw Size : {{ page.raw_size }}MB{% endif %}
                        <pre><code class="highlight">FROM {{ page.name }}
 RUN ...
                        </code></pre>
-                      </p>
+                      </p>{% if page.name contains 'vscode' %}
+                      <h3>Usage as Devcontainer</h3>
+                      <p>For those that end in "-vscode" they are intended for use in devcontainers. Create
+                      a .devcontainer directory in your repository with a .devcontainer.json and Dockerfile.
+                      The Dockerfile should use the image as above as a base, and the .devcontainer.json
+                      can minimally look like this:  </p>                    
+                       <pre><code class="highlight">{
+    "name": "Development environments on your infrastructure",
+    "context": "../",
+    "dockerFile": "Dockerfile",
+}
+</code></pre>
+                       <p>Once you are in the container, type "nix-shell" to enter the environment.</p>{% endif %}
+                      
                     </div>
 
                     <div class="tab-pane" id="link6">
