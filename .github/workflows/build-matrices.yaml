@@ -1,4 +1,4 @@
-name: Docker Build Matrices
+fname: Docker Build Matrices
 
 # This job generates build matrices using base images built two hours earlier
 
@@ -16,7 +16,7 @@ jobs:
     name: Test Changed Docker Builds
     runs-on: ubuntu-latest
     outputs:
-      dockerbuild_matrix: ${{ steps.dockerbuild.outputs.dockerbases_matrix }}
+      dockerbases_matrix: ${{ steps.dockerbuild.outputs.dockerbases_matrix }}
       empty_matrix: ${{ steps.dockerbuild.outputs.dockerbasess_matrix_empty }}
 
     steps:
@@ -80,8 +80,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        result: ${{ fromJson(needs.generate.outputs.dockerbuild_matrix) }}
-    if: ${{ needs.generate.outputs.dockerbuild_matrix != '[]' }}
+        result: ${{ fromJson(needs.generate.outputs.dockerbases_matrix) }}
+    if: ${{ needs.generate.outputs.dockerbases_matrix != '[]' }}
     name: "Build ${{ matrix.result.container_name }}"
     steps:
     - name: Checkout Repository

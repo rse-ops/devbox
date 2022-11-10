@@ -11,6 +11,13 @@ I like this approach because I think it's the best of both worlds - easy
 binaries with nix, but provided in containers so I don't need to worry about
 dumping them all onto my local hard drive!
 
+> How does it work?
+
+Each diretory here has a `shell.nix` that defines a Nix environment.
+We build every environment against every base container (e.g., one vanilla,
+and one for VSCode) in [bases](bases) using [uptodate](https://github.com/vsoch/uptodate).
+That's it!
+
 ## Environments
 
  - [openmpi](openmpi): with clang 14
@@ -18,14 +25,47 @@ dumping them all onto my local hard drive!
 
 ## Usage
 
-## Containers
+Each environment (subfolder here that isn't bases) is built against each base.
+The below describes each of the bases, along with a local Devbox environment
+(not represented as a base).
 
 Most of these containers will be pre-built and you can pull them down.
 Browse the packages alongside the repository here to see what is available!
-We will eventually have a web interface to better show you this set.
+You an also browse our web interface at [https://rse-ops.github.io/devbox](https://rse-ops.github.io/devbox).
 
-For Nix derived containers, the package set included are installed to the
-defualt nix-env, meaning you can shell inside and find them on your path.
+### Vanilla
+
+- [bases/Dockerfile](bases/Dockerfile)
+
+For these containers, they are installed to a nix-os to nix-env, so you
+should be able to shell inside and find executables on the path.
+
+### VScode
+
+- [bases/vscode/Dockerfile](bases/vscode/Dockerfile)
+
+These containers are optimized for use in VSCode. You can add a `.devcontainers`
+directory as follows:
+
+```bash
+.devcontainer/
+    devcontaine.json
+    Dockerfile
+```
+
+Where the `devcontainer.json` can minimally have:
+
+```
+{
+    "name": "Development environments on your infrastructure",
+    "context": "../",
+    "dockerFile": "Dockerfile",
+}
+```
+
+And the Dockerfile can use one of the images as `FROM` and add more packages
+or otherwise update the base, and then when the container starts you run `nix-shell`
+to get into your enviornment.
 
 ## Devbox
 
