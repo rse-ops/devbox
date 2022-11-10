@@ -43,7 +43,7 @@ jobs:
 
     - name: Generate Build Matrix
       if: github.event_name != 'schedule'
-      uses: vsoch/uptodate@add/common-bases
+      uses: vsoch/uptodate@main
       id: dockerbuild_pr
       with: 
         root: ${{ steps.parsed_files.outputs.parsed_files }}
@@ -57,7 +57,7 @@ jobs:
       with:
          fetch-depth: 0
     - name: Generate Build Matrix
-      uses: vsoch/uptodate@add/common-bases
+      uses: vsoch/uptodate@main
       if: github.event_name == 'schedule'      
       id: dockerbuild_scheduled
       with: 
