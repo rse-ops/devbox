@@ -114,27 +114,25 @@
                   <div class="tab-content tab-space">
                     <div class="tab-pane active" id="link4">
                       <h3>Basic Usage</h3>
-                      <p><pre><code class="highlight">Download         docker pull {{ page.name }}{% if page.size %}
+                      <p><pre><code class="highlight">Download         docker pull {{ page.name }}:{{ page.versions[0].tag }}{% if page.size %}
 Compressed Size : {{ page.size }}MB{% endif %}{% if page.raw_size %}
 Raw Size : {{ page.raw_size }}MB{% endif %}
 </code></pre></p>
                        <br>
                        <h3>Pull (download)</h3>
-                       <p>To download the latest version of {{ page.name }} run</p>
-                       <pre><code class="highlight">docker pull {{ page.name }}:latest</code></pre>
-                       <p>or to download a specific version of {{ page.name }} run:</p>
+                       <p>To download a specific version of {{ page.name }} run:</p>
                        <pre><code class="highlight">docker pull {{ page.name }}:{{ page.versions[0].tag }}</code></pre>
                        <br>
                        <h3>Run</h3>
                        <p>To run the container as an application run</p>
-                       <pre><code class="highlight">docker run --rm {{ page.name }}</code></pre>
+                       <pre><code class="highlight">docker run --rm {{ page.name }}:{{ page.versions[0].tag }}</code></pre>
 
                     </div>
                     <div class="tab-pane" id="link5">
                       <p>
                        <h3>Usage in FROM</h3>
                        <p>You can use this container base as the FROM in your Dockerfile</p>
-                       <pre><code class="highlight">FROM {{ page.name }}
+                       <pre><code class="highlight">FROM {{ page.name }}:{{ page.versions[0].tag }}
 RUN ...
                        </code></pre>
                       </p>{% if page.name contains 'vscode' %}
@@ -144,7 +142,7 @@ RUN ...
                       The Dockerfile should use the image as above as a base, and the .devcontainer.json
                       can minimally look like this:  </p>                    
                        <pre><code class="highlight">{
-    "name": "Development environments on your infrastructure",
+    "name": "Development environment with devbox (nix)",
     "context": "../",
     "dockerFile": "Dockerfile",
 }
