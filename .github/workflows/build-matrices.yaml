@@ -16,8 +16,8 @@ jobs:
     name: Test Changed Docker Builds
     runs-on: ubuntu-latest
     outputs:
-      dockerbuild_matrix: ${{ steps.dockerbuild.outputs.dockerbuild_matrix }}
-      empty_matrix: ${{ steps.dockerbuild.outputs.dockerbuild_matrix_empty }}
+      dockerbuild_matrix: ${{ steps.dockerbuild.outputs.dockerbases_matrix }}
+      empty_matrix: ${{ steps.dockerbuild.outputs.dockerbasess_matrix_empty }}
 
     steps:
 
@@ -43,12 +43,12 @@ jobs:
 
     - name: Generate Build Matrix
       if: github.event_name != 'schedule'
-      uses: vsoch/uptodate@main
+      uses: vsoch/uptodate@add/common-bases
       id: dockerbuild_pr
       with: 
         root: ${{ steps.parsed_files.outputs.parsed_files }}
-        parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all ."
+        parser: dockerbases
+        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
       # END PULL REQUEST / PUSH checkout and file derivation =======================
 
       # START SCHEDULED checkout and file derivation =======================
@@ -57,20 +57,20 @@ jobs:
       with:
          fetch-depth: 0
     - name: Generate Build Matrix
-      uses: vsoch/uptodate@main
+      uses: vsoch/uptodate@add/common-bases
       if: github.event_name == 'schedule'      
       id: dockerbuild_scheduled
       with: 
         root: .
-        parser: dockerbuild
-        flags: "--registry ghcr.io/rse-ops --all ."  
-      # END SCHEDULED checkout and file derivation
+        parser: dockerbases
+        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
+        # END SCHEDULED checkout and file derivation
 
     - name: View Build Matrix Result
       id: dockerbuild
       env:
-        result: ${{ steps.dockerbuild_pr.outputs.dockerbuild_matrix }}
-        result_scheduled: ${{ steps.dockerbuild_scheduled.outputs.dockerbuild_matrix }}
+        result: ${{ steps.dockerbuild_pr.outputs.dockerbases_matrix }}
+        result_scheduled: ${{ steps.dockerbuild_scheduled.outputs.dockerbases_matrix }}
       run: /bin/bash .github/scripts/combine_results.sh
 
   build:
@@ -145,4 +145,3 @@ jobs:
           outdir: _library
           # defaults to branch: gh-pages, deploy: true, outdir: pwd
           # outdir is in context of the gh-pages branch, not here.
-
