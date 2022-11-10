@@ -63,7 +63,7 @@ jobs:
       with: 
         root: .
         parser: dockerbases
-        flags: "--registry ghcr.io/rse-ops --all --bases $PWD/bases $PWD"
+        flags: "--registry ghcr.io/rse-ops --all --bases ./bases ."
         # END SCHEDULED checkout and file derivation
 
     - name: View Build Matrix Result
@@ -104,21 +104,20 @@ jobs:
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
 
-    - name: Pull Docker Layers
-      env:
-        container: ${{ matrix.result.container_name }}
-      run: docker pull ${container} || exit 0
-
     - name: Update to relative path
       id: relative_path
       env:
         filename: ${{ matrix.result.filename }}
+        container: ${{ matrix.result.container_name }}
       run: /bin/bash .github/scripts/relative_path.sh
 
-    - name: Build ${{ matrix.result.container_name }}
+    - name: Pull Docker Layers
+      run: docker pull ${{ env.container }} || exit 0
+
+    - name: Build ${{ env.container }}
       id: builder
       env:
-        container: ${{ matrix.result.container_name }}
+        container: ${{ env.container }}
         prefix: ${{ matrix.result.command_prefix }}
         context: ${{ matrix.result.context }}
         filename: ${{ steps.relative_path.outputs.relative_path }}
@@ -131,9 +130,7 @@ jobs:
 
     - name: Deploy Container
       if: (github.event_name != 'pull_request')
-      env:
-        container: ${{ matrix.result.container_name }}
-      run: docker push ${container}
+      run: docker push ${{ env.container}}
 
     - name: Run Librarian
       id: runner
