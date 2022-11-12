@@ -4,6 +4,7 @@ RUN wget https://github.com/jetpack-io/devbox/releases/download/0.1.0/devbox_0.1
     tar -xzvf devbox_0.1.0_linux_amd64.tar.gz && \
     chmod +x devbox && \
     mv devbox /usr/bin
+ENV NIXPKGS_ALLOW_UNFREE=1
 ENV PATH=/usr/bin:$PATH
 WORKDIR /code
 COPY devbox.json devbox.json
