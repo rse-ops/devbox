@@ -1,7 +1,7 @@
 ---
 layout: container
 name: ghcr.io/rse-ops/openmpi-devbox
-updated_at: 2022-11-10 17:59:40.422046
+updated_at: 2022-11-12 21:02:20.737356
 
 
 container_url: https://github.com/orgs/rse-ops/packages/container/package/openmpi-devbox
