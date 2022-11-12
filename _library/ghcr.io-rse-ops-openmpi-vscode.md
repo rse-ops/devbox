@@ -1,7 +1,7 @@
 ---
 layout: container
 name: ghcr.io/rse-ops/openmpi-vscode
-updated_at: 2022-11-10 18:00:01.132299
+updated_at: 2022-11-12 21:01:56.869468
 
 
 container_url: https://github.com/orgs/rse-ops/packages/container/package/openmpi-vscode
