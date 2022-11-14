@@ -1,7 +1,7 @@
 ---
 layout: container
 name: ghcr.io/rse-ops/openmpi
-updated_at: 2022-11-12 21:00:47.275604
+updated_at: 2022-11-14 23:58:38.796163
 
 
 container_url: https://github.com/orgs/rse-ops/packages/container/package/openmpi
