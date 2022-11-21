@@ -1,0 +1,7 @@
+dockerbuild:
+
+  build_args:
+    boost_version:
+      key: boost
+      versions:
+        - "172"

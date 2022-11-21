@@ -1,0 +1,13 @@
+{
+  "packages": [
+    "boost172", 
+    "openbabel", 
+    "python3",
+    "openmpi",
+    "hdf5",
+    "hdf5-mpi"
+  ],
+  "shell": {
+    "init_hook": null
+  }
+}
