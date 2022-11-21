@@ -5,7 +5,7 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.openmpi pkgs.boost172 pkgs.openbabel pkgs.python3 ];
+  packages = [ pkgs.openmpi pkgs.boost172 pkgs.openbabel pkgs.python3, pkgs.hdf5, pkgs.hdf5-mpi ];
 
   enterShell = ''
     hello

@@ -5,5 +5,7 @@ pkgs.mkShell {
     pkgs.boost172
     pkgs.openbabel
     pkgs.python3
+    pkgs.hdf5
+    pkgs.hdf5-mpi
   ];
 }
