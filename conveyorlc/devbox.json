@@ -3,7 +3,7 @@
     "boost172", 
     "openbabel", 
     "python3",
-    "openmpi",
+    "openmpi"
   ],
   "shell": {
     "init_hook": null
